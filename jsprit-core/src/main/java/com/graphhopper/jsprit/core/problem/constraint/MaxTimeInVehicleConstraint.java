@@ -101,9 +101,9 @@ public class MaxTimeInVehicleConstraint implements HardActivityConstraint {
 
         //************ 2. check whether insertion of new shipment satisfies all other max-in-vehicle-constraints
 
-        double minSlack = Double.MAX_VALUE;
-        if (!(nextAct instanceof End)) {
-            minSlack = stateManager.getActivityState(nextAct, iFacts.getNewVehicle(), minSlackId, Double.class);
+        Double minSlack = stateManager.getActivityState(nextAct, iFacts.getNewVehicle(), minSlackId, Double.class);
+        if (nextAct instanceof End || minSlack == null) {
+            minSlack = Double.MAX_VALUE;
         }
         double directArrTimeNextAct = prevActDepTime + transportTime.getTransportTime(prevAct.getLocation(), nextAct.getLocation(), prevActDepTime, iFacts.getNewDriver(), iFacts.getNewVehicle());
         double directNextActStart = Math.max(directArrTimeNextAct, nextAct.getTheoreticalEarliestOperationStartTime());
